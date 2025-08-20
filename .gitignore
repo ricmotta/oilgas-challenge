@@ -1,12 +1,17 @@
+# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
 .env
+
+# Jupyter
 .ipynb_checkpoints/
+
+# OS
 Thumbs.db
 .DS_Store
-data/raw/
-data/processed/
+
+# Data and artifacts (allow 'raw/' and 'processed/' to be versioned, since files are small and public)
 geo/*.geojson
 *.db
