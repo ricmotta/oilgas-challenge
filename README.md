@@ -63,8 +63,10 @@ It covers schema design, ETL, basic geospatial export, and SQL queries required 
 ```bash
 # From the repo root
 python -m venv .venv
+
 # Windows
 .venv\Scripts\activate
+
 # macOS/Linux
 source .venv/bin/activate
 
@@ -148,6 +150,8 @@ You can open the file at [https://geojson.io](https://geojson.io) for a quick vi
 ## Outputs
 
 * **Database (SQLite)**: `data/oilgas.db`
+
+  ![Database Schema](docs/schema.png)
 
   * Dimensions: `dim_state`, `dim_county`, `dim_operator`, `dim_well_status`, `dim_well`
   * Fact: `fact_state_production_monthly`
