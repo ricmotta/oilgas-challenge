@@ -6,7 +6,7 @@ PRAGMA foreign_keys = ON;
 -- =========================
 
 CREATE TABLE IF NOT EXISTS dim_state (
-    state_id    INTEGER PRIMARY KEY,
+    state_id    INTEGER PRIMARY KEY AUTOINCREMENT,
     state_code  TEXT NOT NULL UNIQUE,
     state_name  TEXT NOT NULL
 );
@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS dim_county (
     county_id    INTEGER PRIMARY KEY,
     state_id     INTEGER NOT NULL,
     county_name  TEXT NOT NULL,
-    county_fips  TEXT,
     CONSTRAINT fk_county_state
         FOREIGN KEY (state_id) REFERENCES dim_state(state_id) ON DELETE RESTRICT,
     CONSTRAINT uq_county UNIQUE (state_id, county_name)
@@ -30,9 +29,7 @@ CREATE TABLE IF NOT EXISTS dim_operator (
 
 CREATE TABLE IF NOT EXISTS dim_well_status (
     status_id    INTEGER PRIMARY KEY,
-    status_code  TEXT,
-    status_desc  TEXT,
-    CONSTRAINT uq_status UNIQUE (status_code)
+    status_desc  TEXT
 );
 
 CREATE TABLE IF NOT EXISTS dim_well (
@@ -101,9 +98,57 @@ JOIN dim_state  s ON c.state_id  = s.state_id
 GROUP BY c.county_id, s.state_code, c.county_name;
 
 -- =========================
--- Seed for states (WV, PA, NY)
+-- Complete Seed of U.S. States
 -- =========================
-INSERT OR IGNORE INTO dim_state (state_id, state_code, state_name) VALUES
-    (1, 'WV', 'West Virginia'),
-    (2, 'PA', 'Pennsylvania'),
-    (3, 'NY', 'New York');
+INSERT OR IGNORE INTO dim_state (state_code, state_name) VALUES
+    ('AL', 'Alabama'),
+    ('AK', 'Alaska'),
+    ('AZ', 'Arizona'),
+    ('AR', 'Arkansas'),
+    ('CA', 'California'),
+    ('CO', 'Colorado'),
+    ('CT', 'Connecticut'),
+    ('DE', 'Delaware'),
+    ('DC', 'District of Columbia'),
+    ('FL', 'Florida'),
+    ('GA', 'Georgia'),
+    ('HI', 'Hawaii'),
+    ('ID', 'Idaho'),
+    ('IL', 'Illinois'),
+    ('IN', 'Indiana'),
+    ('IA', 'Iowa'),
+    ('KS', 'Kansas'),
+    ('KY', 'Kentucky'),
+    ('LA', 'Louisiana'),
+    ('ME', 'Maine'),
+    ('MD', 'Maryland'),
+    ('MA', 'Massachusetts'),
+    ('MI', 'Michigan'),
+    ('MN', 'Minnesota'),
+    ('MS', 'Mississippi'),
+    ('MO', 'Missouri'),
+    ('MT', 'Montana'),
+    ('NE', 'Nebraska'),
+    ('NV', 'Nevada'),
+    ('NH', 'New Hampshire'),
+    ('NJ', 'New Jersey'),
+    ('NM', 'New Mexico'),
+    ('NY', 'New York'),
+    ('NC', 'North Carolina'),
+    ('ND', 'North Dakota'),
+    ('OH', 'Ohio'),
+    ('OK', 'Oklahoma'),
+    ('OR', 'Oregon'),
+    ('PA', 'Pennsylvania'),
+    ('RI', 'Rhode Island'),
+    ('SC', 'South Carolina'),
+    ('SD', 'South Dakota'),
+    ('TN', 'Tennessee'),
+    ('TX', 'Texas'),
+    ('UT', 'Utah'),
+    ('VT', 'Vermont'),
+    ('VA', 'Virginia'),
+    ('WA', 'Washington'),
+    ('WV', 'West Virginia'),
+    ('WI', 'Wisconsin'),
+    ('WY', 'Wyoming');

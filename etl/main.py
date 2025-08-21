@@ -7,6 +7,7 @@ from .db.io import connect, apply_schema
 from .loaders.eia import load_eia_pair
 from .loaders.nysdec import load_nysdec
 from .pipelines.load_all import load_dimensions_and_fact
+from etl.geo.make_geojson import export_geojson_from_parquet
 
 def ensure_dirs():
     PROC_DIR.mkdir(parents=True, exist_ok=True)
@@ -14,6 +15,7 @@ def ensure_dirs():
 def parse_args():
     p = argparse.ArgumentParser(description="Oil & Gas ETL runner")
     p.add_argument("--apply-schema", action="store_true", help="Apply sql/schema.sql before loading")
+    p.add_argument("--make-geojson", action="store_true", help="Export wells.geojson after ETL")
     return p.parse_args()
 
 def main():
@@ -34,6 +36,13 @@ def main():
 
         logging.info("Loading into SQLite...")
         load_dimensions_and_fact(conn, eia_df, wells_df)
+
+    if args.make_geojson:
+        logging.info("Exporting wells GeoJSON...")
+        export_geojson_from_parquet(
+            Path("data/processed/wells.parquet"),
+            Path("data/processed/wells.geojson")
+        )
 
     logging.info("ETL completed successfully.")
 
